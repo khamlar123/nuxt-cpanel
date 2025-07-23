@@ -24,9 +24,14 @@ function handleEdit(item: any) {
 
 const columns: TableColumn<Payment>[] = [
   {
+    accessorKey: "id",
+    header: "#",
+    cell: ({ row }) => `# ${row.getValue('id')}`
+  },
+  {
     accessorKey: 'employee_id',
-    header: '#',
-    cell: ({ row }) => `#${row.getValue('employee_id')}`
+    header: 'employee id',
+    // cell: ({ row }) => `#${row.getValue('employee_id')}`
   },
   {
     accessorKey: 'name',
@@ -67,20 +72,39 @@ const columns: TableColumn<Payment>[] = [
   {
     header: 'Actions',
     cell: ({row}) => {
+      const original = row.original
+
       return h(
-          UButton,
-          {
-            size: 'xs',
-            icon: 'i-heroicons-pencil',
-            color: 'primary',
-            variant: 'outline',
-            onClick: () => handleEdit(row.original) // 👈 pass full row data
-          },
-          () => 'Edit'
+          'div',
+          {class: 'flex gap-2'},
+          [
+            // h(UButton, {
+            //   size: 'xs',
+            //   icon: 'i-heroicons-eye',
+            //   color: 'info',
+            //   variant: 'outline',
+            //   onClick: () => '',
+            // }, () => ''),
+
+            h(UButton, {
+              size: 'xs',
+              icon: 'i-heroicons-pencil',
+              color: 'primary',
+              variant: 'outline',
+              onClick: () => edit(Number(row.original.id)),
+            }, () => ''),
+
+            h(UButton, {
+              size: 'xs',
+              icon: 'i-heroicons-lock-closed',
+              color: 'error',
+              variant: 'outline',
+              onClick: () => '',
+            }, () => '')
+          ]
       )
     }
   }
-
 ]
 
 const pagination = ref({
@@ -91,6 +115,11 @@ const pagination = ref({
 const searchFunc = () => {
  store.search(kw.value);
 }
+
+const edit = (id: number) => {
+  router.push({path: `/users/${id}`})
+}
+
 
 store.find()
 
@@ -103,13 +132,10 @@ store.find()
       <h1 class="mb-2">User manager</h1>
 
       <div class="flex justify-between gap-2 mb-4">
-          <div class="flex items-center gap-2">
-            <input class="input-item" type="text" placeholder="search" v-model="kw" />
-            <UButton icon="i-heroicons-magnifying-glass" variant="subtle" @click="searchFunc">
-              Search
-            </UButton>
+          <div class="flex items-center gap-1">
+            <UInput  class="max-w-sm" placeholder="Filter..."  v-model="kw"  @keydown.enter="searchFunc" />
+            <UButton color="info" icon="i-heroicons-magnifying-glass" variant="subtle" @click="searchFunc" />
           </div>
-
         <UButton icon="ant-design:plus-circle-outlined" variant="subtle" to="users/0">Add User</UButton>
       </div>
 
