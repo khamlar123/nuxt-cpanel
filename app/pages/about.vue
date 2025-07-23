@@ -3,7 +3,7 @@
 </script>
 
 <template>
-  $END$
+//test about
 </template>
 
 <style scoped>

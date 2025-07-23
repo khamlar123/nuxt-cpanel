@@ -3,7 +3,7 @@
 </script>
 
 <template>
-  $END$
+  // impoort
 </template>
 
 <style scoped>

@@ -1,14 +1,14 @@
-// store/drawer.ts
+// stores/drawer.ts
 export const useDrawerStore = defineStore('drawer', () => {
-    const isOpen = ref(false)
-    const isMobile = ref(false)
+    const isOpen = ref(true)
+    const isMobile = ref(true)
 
     const toggle = () => {
         isOpen.value = !isOpen.value
     }
 
     const close = () => {
-        isOpen.value = false
+        isOpen.value = true
     }
 
     const open = () => {
