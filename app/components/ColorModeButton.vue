@@ -14,6 +14,10 @@ import { MoonIcon, SunIcon } from '@heroicons/vue/24/outline'
 
 const colorMode = useColorMode()
 
+//  setInterval(() => {
+//    toggleColorMode()
+// }, 500) // Every 1 second
+
 const toggleColorMode = () => {
   colorMode.preference = colorMode.value === 'dark' ? 'light' : 'dark'
 }

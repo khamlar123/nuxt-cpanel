@@ -1,116 +1,166 @@
 <script setup lang="ts">
-  import {getPaginationRowModel} from "@tanstack/vue-table";
-  const { success, error, warning } = Alert
-  const UBadge = resolveComponent('UBadge')
-  const USwitch = resolveComponent('USwitch')
-  const route = useRoute()
-  const id = route.params.id
-  const store = useRoleStore()
-  const pagination = ref({
-    pageIndex: 0,
-    pageSize: 5
-  });
+import * as v from 'valibot'
+import type {FormSubmitEvent} from '@nuxt/ui'
+import {useRoleStore} from "~/stores/role-permission";
+import {useUserStore} from "~/stores/user.store";
 
-  const columns  = [
-    { accessorKey: 'id', header: '#' },
-    { accessorKey: 'name', header: 'Name' },
-    {
-      accessorKey: 'is_active',
-      header: 'Status',
-      cell: ({ row }) => {
-        const value = row.getValue('is_active') as boolean
+const route = useRoute();
+const router = useRouter();
+const userId: number = Number(route.params.id);
+const store = useRoleStore();
+const userStore = useUserStore()
 
-        const color = value ? 'success' : 'error'
-        const label = value ? 'Active' : 'Inactive'
 
-        return h(
-            UBadge,
-            {
-              class: 'capitalize',
-              variant: 'subtle',
-              color,
-            },
-            () => label
-        )
-      }
-    },
-    {
-      header: 'Actions',
-      id:"action"
-      // cell: ({ row }) => {
-      //   const value = row.original.is_active // or row.getValue('is_active')
-      //   const id = row.original.id
-      //
-      //   return h(USwitch, {
-      //     modelValue: value,
-      //     // called when switch toggled
-      //     'onUpdate:modelValue': (newValue: boolean) => {
-      //       // Emit an event or directly update your store/list
-      //       console.log('Toggle:', id, newValue)
-      //       const index = store.permissionList.findIndex(f => f.id === id)
-      //       if (index !== -1) {
-      //         store.permissionList[index].is_active = newValue
-      //       }
-      //
-      //       // Example: update your store or API here
-      //       // store.toggleUserStatus(id, newValue)
-      //     },
-      //   })
-      // }
-    },
-  ]
-
-  const showToast = () => {
-    success('test')
+let schema = null;
+  if (userId > 0 ) {
+     schema = createUserSchema(false);
+  }else {
+     schema = createUserSchema(true);
   }
 
-  const switchActive = (event: any) => {
-    store.permissionToggle(event.id);
+function createUserSchema(requirePassword = true) {
+  return v.object({
+    email: v.pipe(v.any()),
+    password: requirePassword
+        ? v.pipe(v.string(), v.minLength(6, 'Must be at least 6 characters'))
+        : v.pipe(v.any() ),
+    employee_id: v.pipe(v.string(),  v.minLength(5, 'Must be at least 5 characters')),
+    role_id: v.pipe(v.number(), v.minValue(1, 'Please select')),
+    name: v.pipe(v.string()),
+    branch_id: v.pipe(v.number(), v.minValue(1, 'Please branch')),
+    is_admin: v.pipe(v.boolean()),
+    phone: v.pipe(v.any() ),
+  })
+}
+
+
+type Schema = v.InferOutput<typeof schema>
+
+
+const state = reactive({
+  email: '',
+  password: '',
+  employee_id: '',
+  role_id: 0,
+  name: '',
+  branch_id: 0,
+  is_admin: true,
+  phone: '',
+})
+
+
+const roleOptions = computed(() => {
+return store.roleList.filter(f => f.is_active === true).map(m => {
+    return {
+      label: m.name,
+      value: m.id,
+    }
+  })
+})
+
+const branchOption = computed(() => {
+  return store.branchList.map(b => {
+    return {
+      label: b.name,
+      value: b.code
+    }
+  })
+})
+
+const onSubmit = (event: FormSubmitEvent<Schema>) => {
+  if (userId > 0 ) {
+    if ( event.data.password === '' ) {
+      delete event.data.password; // Remove password if not provided
+    }
+    userStore.update(userId,event.data, router)
+  } else  {
+    userStore.create(event.data, router)
+  }
+}
+
+const close = () => {
+  useGoBack().goBack()
+}
+
+onMounted(async () => {
+  if (userId > 0 ) {
+   await userStore.findOne(userId);
+   const data = userStore.user;
+   if (data) {
+     delete data.password
+     Object.assign(state, data);
+   }
   }
 
-  store.findPermission();
+  await store.find();
+  await store.branch();
+})
 
 </script>
 
 <template>
-<u-card class="pa-4">
-  <h1>Permission</h1>
-  <div class="flex flex-col flex-1 w-full">
-    <div class="flex px-4 py-3.5 border-b border-accented">
-      <UInput  class="max-w-sm" placeholder="Filter..." />
-    </div>
+  <UCard class="overflow-visible relative z-50">
 
-    <UTable
-        ref="table"
-        v-model:pagination="pagination"
-        :data="store.permissionList"
-        :columns="columns"
-        :pagination-options="{
-        getPaginationRowModel: getPaginationRowModel()
-      }"
-        class="flex-1"
-    >
-      <template #action-cell="{ row }">
-        <div class="uppercase font-mono ">
-          <u-switch color="success" v-model="row.original.is_active" @change="switchActive(row.original)"> </u-switch>
+    <h1 class="mb-4 font-bold">Add User</h1>
+
+    <div class="relative overflow-visible">
+      <UForm class="space-y-4 grid grid-cols-2" :schema="schema" :state="state" @submit="onSubmit">
+
+        <UFormField label="Name" name="name">
+          <UInput v-model="state.name" placeholder="Enter name"/>
+        </UFormField>
+
+        <UFormField label="Email" name="email">
+          <UInput v-model="state.email" placeholder="Enter email" type="email"/>
+        </UFormField>
+
+        <UFormField label="Password" name="password"  required >
+          <UInput v-model="state.password" type="password" placeholder="Enter password" />
+        </UFormField>
+
+        <UFormField label="Phone" name="phone">
+          <UInput v-model="state.phone" placeholder="Enter phone"/>
+        </UFormField>
+
+        <UFormField label="Employee ID" name="employee_id" required>
+          <UInput v-model="state.employee_id" placeholder="Enter employee ID"/>
+        </UFormField>
+
+        <div class="relative z-50">
+          <UFormField label="Role" name="role_id" required>
+            <u-select
+                v-model="state.role_id"
+                :items="roleOptions"
+                class="w-[190px]"
+                placeholder="-- select role --"
+            ></u-select>
+          </UFormField>
         </div>
-      </template>
-    </UTable>
-    <div class="flex justify-end border-t border-default pt-4">
-      <UPagination
-          :default-page="(table?.tableApi?.getState().pagination.pageIndex || 0) + 1"
-          :items-per-page="table?.tableApi?.getState().pagination.pageSize"
-          :total="table?.tableApi?.getFilteredRowModel().rows.length"
-          @update:page="(p) => table?.tableApi?.setPageIndex(p - 1)"
-      />
+
+        <div class="relative z-50">
+          <UFormField label="branch" name="branch_id" required>
+            <u-select
+                v-model="state.branch_id"
+                :items="branchOption"
+                class="w-[190px]"
+                placeholder="-- select branch --"
+            ></u-select>
+          </UFormField>
+        </div>
+
+        <UFormField label="Is Admin?" name="is_admin">
+          <USwitch v-model="state.is_admin"/>
+        </UFormField>
+
+        <div class="flex gap-2">
+          <UButton  :loading="store.isLoading" icon="i-heroicons-inbox-arrow-down" type="submit" label="Submit" color="primary" variant="subtle"
+                   class="w-[140px] flex items-center justify-center cursor-pointer"   />
+          <UButton icon="i-heroicons-x-mark" type="button" label="Close" color="error" variant="subtle"
+                   class="w-[140px] flex items-center justify-center cursor-pointer" @click="close"/>
+        </div>
+        <div></div>
+      </UForm>
     </div>
-  </div>
 
-
-
-</u-card>
+  </UCard>
 </template>
-
-<style scoped lang="scss">
-
-</style>

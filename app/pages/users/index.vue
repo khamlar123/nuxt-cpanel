@@ -8,6 +8,7 @@ const table = useTemplateRef('table')
 const kw = ref<string>('');
 const UBadge = resolveComponent('UBadge')
 const UButton = resolveComponent('UButton')
+const USwitch = resolveComponent('USwitch')
 
 type Payment = {
   id: string
@@ -30,12 +31,12 @@ const columns: TableColumn<Payment>[] = [
   },
   {
     accessorKey: 'employee_id',
-    header: 'employee id',
-    // cell: ({ row }) => `#${row.getValue('employee_id')}`
+    header: 'Employee',
   },
   {
     accessorKey: 'name',
-    header: 'Name'
+    header: 'Name',
+    cell: ({ row }) => `${row.getValue('name')}`
   },
   {
     accessorKey: 'email',
@@ -50,76 +51,63 @@ const columns: TableColumn<Payment>[] = [
     header: 'Phone'
   },
   {
-    accessorKey: 'is_active',
-    header: 'status',
-    cell: ({ row }) => {
-      const value = row.getValue('is_active') as boolean
-
-      const color = value ? 'success' : 'error'
-      const label = value ? 'Active' : 'Inactive'
-
-      return h(
-          UBadge,
-          {
-            class: 'capitalize',
-            variant: 'subtle',
-            color,
-          },
-          () => label
-      )
-    }
+    id: 'type',
+    header: 'User type'
   },
+
   {
-    header: 'Actions',
-    cell: ({row}) => {
-      const original = row.original
-
-      return h(
-          'div',
-          {class: 'flex gap-2'},
-          [
-            // h(UButton, {
-            //   size: 'xs',
-            //   icon: 'i-heroicons-eye',
-            //   color: 'info',
-            //   variant: 'outline',
-            //   onClick: () => '',
-            // }, () => ''),
-
-            h(UButton, {
-              size: 'xs',
-              icon: 'i-heroicons-pencil',
-              color: 'primary',
-              variant: 'outline',
-              onClick: () => edit(Number(row.original.id)),
-            }, () => ''),
-
-            h(UButton, {
-              size: 'xs',
-              icon: 'i-heroicons-lock-closed',
-              color: 'error',
-              variant: 'outline',
-              onClick: () => '',
-            }, () => '')
-          ]
-      )
-    }
+    id: 'action',
+     header: 'Actions',
+    // cell: ({row}) => {
+    //   return h(
+    //       'div',
+    //       {class: 'flex gap-2'},
+    //       [
+    //         // h(UButton, {
+    //         //   size: 'xs',
+    //         //   icon: 'i-heroicons-eye',
+    //         //   color: 'info',
+    //         //   variant: 'outline',
+    //         //   onClick: () => '',
+    //         // }, () => ''),
+    //
+    //         h(UButton, {
+    //           size: 'sm',
+    //           icon: 'i-heroicons-pencil-square',
+    //           color: 'primary',
+    //           variant: 'ghost',
+    //           onClick: () => edit(Number(row.original.id)),
+    //         }, () => ''),
+    //
+    //         h(USwitch, {
+    //           size: 'xs',
+    //           color: 'success',
+    //           variant: 'outline',
+    //           modelValue: row.original.is_active,
+    //           onChange: () => switchActive(row.original),
+    //         }, () => '')
+    //       ]
+    //   )
+    // }
   }
 ]
 
 const pagination = ref({
   pageIndex: 0,
-  pageSize: 5
+  pageSize: 10
 });
 
-const searchFunc = () => {
- store.search(kw.value);
+const searchFunc = (event:string) => {
+ store.search(event);
 }
 
 const edit = (id: number) => {
   router.push({path: `/users/${id}`})
 }
 
+const switchActive = (event: any) => {
+  store.toggleStatus(event.employee_id)
+}
 
 store.find()
 
@@ -127,28 +115,44 @@ store.find()
 
 <template>
   <div class="w-full space-y-4 pb-4">
-
     <u-card class="pa-4">
-      <h1 class="mb-2">User manager</h1>
-
-      <div class="flex justify-between gap-2 mb-4">
-          <div class="flex items-center gap-1">
-            <UInput  class="max-w-sm" placeholder="Filter..."  v-model="kw"  @keydown.enter="searchFunc" />
-            <UButton color="info" icon="i-heroicons-magnifying-glass" variant="subtle" @click="searchFunc" />
-          </div>
-        <UButton icon="ant-design:plus-circle-outlined" variant="subtle" to="users/0">Add User</UButton>
-      </div>
+      <Search title="User manager" :has-add="true" buttonName="add user" myLink="/users/0" @search="searchFunc" />
 
       <UTable
           ref="table"
           v-model:pagination="pagination"
-          :data="store.userList"
           :columns="columns"
+          :data="store.userList"
+          :ui="{
+            th: 'py-1 px-2',
+            td: 'py-1 px-2',
+
+          }"
           :pagination-options="{
         getPaginationRowModel: getPaginationRowModel()
       }"
           class="flex-1"
       >
+<!--        <template #status-cell="{ row }">-->
+<!--          <div class="uppercase font-mono ">-->
+<!--            <u-switch color="success" v-model="row.original.is_active" @change="switchActive(row.original)"> </u-switch>-->
+<!--          </div>-->
+<!--        </template>-->
+
+        <template #action-cell="{ row }">
+          <div class="uppercase font-mono flex gap-1 items-center justify-end">
+            <u-button color="info" size="sm" class="cursor-pointer"  variant="ghost" icon="i-heroicons-pencil-square" :to="'users/'+row.original.id" />
+            <!--            <u-button size="xs" icon="i-heroicons-pencil"  color="primary" variant="outline"></u-button>-->
+            <u-switch size="xs" color="success" v-model="row.original.is_active" @change="switchActive(row.original)"> </u-switch>
+          </div>
+        </template>
+
+        <template #type-cell="{ row }">
+          <div class=" font-mono">
+            <u-badge class="capitalize uppercase" variant="subtle" color="info">{{row.original.is_admin ? 'Admin' : 'User'}}</u-badge>
+          </div>
+        </template>
+
       </UTable>
 
       <div class="flex justify-end border-t border-default pt-4">

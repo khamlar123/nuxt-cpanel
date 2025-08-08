@@ -5,10 +5,10 @@ export default defineNuxtPlugin(nuxtApp => {
     const axiosInstance: AxiosInstance = axios.create({
         baseURL: config.public.base_url,
         headers: {
-            'Content-Type': "application/json"
+            'Content-Type': "application/json",
+            'access-control-allow-origin': '*'
         }
     })
-
 
     return {
         provide: {

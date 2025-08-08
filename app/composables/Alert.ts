@@ -7,6 +7,10 @@ const warning = (message: string) => {
         showConfirmButton: false,
         timer: 2000,
         confirmButtonText: "Close",
+        customClass: {
+            popup: 'my-dark-swal',
+            confirmButton: 'my-dark-confirm'
+        }
     });
 };
 
@@ -18,6 +22,10 @@ const error = async (message: string) => {
         showConfirmButton: false,
         timer: 2000,
         confirmButtonText: "Close",
+        customClass: {
+            popup: 'my-dark-swal',
+            confirmButton: 'my-dark-confirm'
+        }
     });
 };
 
@@ -29,6 +37,10 @@ const success = async (message: string) => {
         showConfirmButton: false,
         timer: 2000,
         confirmButtonText: "Close",
+        customClass: {
+            popup: 'my-dark-swal',
+            confirmButton: 'my-dark-confirm'
+        }
     });
 };
 

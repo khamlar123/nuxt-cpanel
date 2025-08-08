@@ -1,12 +1,11 @@
-// https://nuxt.com/docs/api/configuration/nuxt-config
 import tailwindcss from "@tailwindcss/vite";
 
 export default defineNuxtConfig({
     compatibilityDate: '2025-07-15',
     devtools: {enabled: false},
     ssr: false,
-    imports:{
-        autoImport:true
+    imports: {
+        autoImport: true
     },
     devServer: {
         host: '0.0.0.0',
@@ -29,8 +28,30 @@ export default defineNuxtConfig({
         '@nuxt/icon',
         '@vueuse/nuxt',
         '@pinia/nuxt',
-        '@nuxtjs/color-mode'
+        '@nuxtjs/color-mode',
+        '@ant-design-vue/nuxt',
+        '@nuxtjs/google-fonts',
+        '@nuxtjs/i18n'
     ],
+
+    // i18n: {
+    //     locales: [
+    //         {
+    //             code: 'en',
+    //             name: 'English',
+    //             file: 'en.json',
+    //         },
+    //         {
+    //             code: 'la',
+    //             name: 'Lao',
+    //             file: 'la.json',
+    //         },
+    //     ],
+    //     defaultLocale: 'en',
+    //     lazy: true,
+    //     langDir: './app/locales',
+    // },
+
     colorMode: {
         preference: 'system',
         fallback: 'light',
@@ -39,7 +60,7 @@ export default defineNuxtConfig({
     lucide: {
         namePrefix: 'Icon'
     },
-    css: ['~/assets/css/main.css'],
+    css: ['~/assets/css/main.css', "~/assets/css/google-fonts.css"],
 
     vite: {
         optimizeDeps: {
@@ -61,5 +82,24 @@ export default defineNuxtConfig({
     ui: {
         fonts: false,
         icons: ['heroicons']
-    }
+    },
+    googleFonts: {
+        download: false,
+        base64: true,
+        outputDir: "app/assets",
+        overwriting: true,
+        inject: false,
+        preload: true,
+        stylePath: "css/google-fonts.css",
+        fontsDir: "app/assets/fonts",
+        fontsPath: "fonts",
+        families: {
+            Roboto: true,
+            "Noto Sans Lao": {
+                wght: "100..400",
+                regular: "400",
+            },
+            Ubuntu: true,
+        },
+    },
 })

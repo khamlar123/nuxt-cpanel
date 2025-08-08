@@ -9,9 +9,22 @@
       <!-- Add more cards as needed -->
     </div>
   </div>
+
+  <div>
+    <p>{{ t('hello') }}</p>
+    <p>{{ t('welcome') }}</p>
+
+    <button @click="changeLang('en')">EN</button>
+    <button @click="changeLang('la')">LA</button>
+  </div>
 </template>
 
-<script setup>
+<script setup lang="ts">
+const { t,locale } = useI18n()
+
+function changeLang(lang) {
+  locale.value = lang
+}
 definePageMeta({
   layout: 'default'
 })

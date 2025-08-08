@@ -1,6 +1,65 @@
 <script setup lang="ts">
 import {useAppStore} from "~/stores/app";
+import {ref} from 'vue';
+import {useTheme} from '@/composables/useTheme'
+import type {NavigationMenuItem} from '@nuxt/ui'
+
 const store = useAppStore()
+const {theme} = useTheme()
+const items = ref<NavigationMenuItem[][]>([
+  [
+    {
+      label: 'Dashboard',
+      icon: 'ic:baseline-dashboard',
+      to: '/'
+    },
+    {
+      label: 'Import',
+      icon: 'ic:baseline-cloud-download',
+      to: '/import'
+    },
+    {
+      label: 'Users',
+      icon: 'ic:round-supervised-user-circle',
+      to: '/users'
+    },
+    {
+      label: 'Settings',
+      icon: 'ic:baseline-settings',
+      active: false,
+      defaultOpen: false,
+      children: [
+        {
+          label: 'Permission',
+          icon: 'material-symbols:article-person',
+          description: 'Use NuxtLink with superpowers.',
+          to: '/permission'
+        },
+        {
+          label: 'Role',
+          icon: 'material-symbols:add-moderator',
+          description: 'Show a horizontal bar to indicate task progression.',
+          to: '/role'
+        }
+      ]
+    }
+  ],
+  // [
+  //   {
+  //     label: 'GitHub',
+  //     icon: 'i-simple-icons-github',
+  //     badge: '3.8k',
+  //     to: 'https://github.com/nuxt/ui',
+  //     target: '_blank'
+  //   },
+  //   {
+  //     label: 'Help',
+  //     icon: 'i-lucide-circle-help',
+  //     disabled: true
+  //   }
+  // ]
+])
+
 </script>
 
 <template>
@@ -12,39 +71,27 @@ const store = useAppStore()
   >
     <!-- Logo -->
     <div class="flex items-center justify-center h-16 ">
-      <span v-if="!store.isMiniSidebar" class="text-xl font-bold dark:text-white">CPanel</span>
-      <span v-else class="text-xl font-bold dark:text-white">CP</span>
+      <span v-if="!store.isMiniSidebar" class="text-xl font-bold dark:text-white">Dashboard</span>
+      <span v-else class="text-xl font-bold dark:text-white">DB</span>
     </div>
 
     <!-- Navigation -->
     <nav class="flex-1 overflow-y-auto">
-      <ul class="space-y-1 p-2">
-        <li v-for="item in store.navItems" :key="item.name">
-          <NuxtLink
-              :to="item.path"
-              class="flex items-center p-3 rounded-lg hover:bg-gray-200 dark:hover:bg-gray-700"
-              :class="{
-                'bg-gray-200 dark:bg-gray-700': $route.path === item.path,
-                'justify-center':  store.isMiniSidebar
-              }"
-          >
-            <component :is="item.icon" class="w-5 h-5 text-gray-500 dark:text-gray-400" />
-            <span v-if="! store.isMiniSidebar" class="ml-3 dark:text-white">{{ item.name }}</span>
-          </NuxtLink>
-        </li>
-      </ul>
+      <div :class="[theme]">
+        <!--        <a-menu-->
+        <!--            mode="inline"-->
+        <!--            :items="items"-->
+        <!--            @click="handleMenuSelect"-->
+        <!--            class="custom-menu"-->
+        <!--        >-->
+        <!--        </a-menu>-->
+        <UNavigationMenu orientation="vertical" :items="items" class="data-[orientation=vertical]:w-full"/>
+      </div>
     </nav>
 
-    <!-- Toggle sidebar button -->
-<!--    <div class="p-4 border-t border-gray-200 dark:border-gray-700">-->
-<!--      <button-->
-<!--          @click="store.toggleSidebar"-->
-<!--          class="flex items-center justify-center w-full p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700"-->
-<!--      >-->
-<!--        <ChevronDoubleLeftIcon v-if="! store.isMiniSidebar" class="w-5 h-5 text-gray-500 dark:text-gray-400" />-->
-<!--        <ChevronDoubleRightIcon v-else class="w-5 h-5 text-gray-500 dark:text-gray-400" />-->
-<!--        <span v-if="! store.isMiniSidebar" class="ml-3 dark:text-white">Collapse</span>-->
-<!--      </button>-->
-<!--    </div>-->
   </div>
 </template>
+
+<style scoped>
+
+</style>

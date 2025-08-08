@@ -18,13 +18,14 @@ export const useAppStore = defineStore('app', {
         navItems : ref([
             { name: 'Dashboard', path: '/', icon: HomeIcon },
             { name: 'Users', path: '/users', icon: UserIcon },
-            { name: 'Files', path: '/files', icon: FolderIcon },
-            { name: 'Email', path: '/email', icon: EnvelopeIcon },
-            { name: 'Statistics', path: '/stats', icon: ChartBarIcon },
-            { name: 'Settings', path: '/settings', icon: CogIcon },
-            { name: 'Documents', path: '/docs', icon: DocumentTextIcon },
-            { name: 'Calendar', path: '/calendar', icon: CalendarIcon },
-            { name: 'Server', path: '/server', icon: ServerIcon }
+            { name: 'Import', path: '/import', icon: DocumentTextIcon },
+            { name: 'Setting', path: '/setting', icon: CogIcon },
+
+            // { name: 'Statistics', path: '/stats', icon: ChartBarIcon },
+            // { name: 'Settings', path: '/settings', icon: CogIcon },
+            // { name: 'Documents', path: '/docs', icon: DocumentTextIcon },
+            // { name: 'Calendar', path: '/calendar', icon: CalendarIcon },
+            // { name: 'Server', path: '/server', icon: ServerIcon }
         ])
     }),
     actions: {
