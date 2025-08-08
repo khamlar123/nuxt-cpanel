@@ -89,7 +89,7 @@ store.checkImport()
         </UFormField>
 
         <div class="flex flex-col mt-6">
-          <UButton icon="ic:baseline-cloud-download" type="submit" color="info" :disabled="checkTaskArray.find(f => f === true)" :loading="store.isLoading" />
+          <UButton icon="ic:baseline-cloud-download" type="submit" color="info"  :loading="store.isLoading" />
         </div>
       </div>
     </UForm>
