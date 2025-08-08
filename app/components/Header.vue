@@ -6,16 +6,22 @@
 
     <div class="flex items-center space-x-4">
       <ColorModeButton />
+      <u-button  variant="subtle" class="cursor-pointer"  color="none" icon="solar:logout-2-bold" @click="logout"></u-button>
     </div>
   </header>
 </template>
 <script setup lang="ts">
 import {
-  Bars3Icon,
+  Bars3Icon, MoonIcon, SunIcon,
 } from '@heroicons/vue/24/outline'
 import {useAppStore} from "~/stores/app";
-
 const store = useAppStore()
+
+const logout = () => {
+  useCookie('token').value = null;
+  navigateTo('/login')
+}
+
 </script>
 <style scoped lang="scss">
 
