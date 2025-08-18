@@ -107,7 +107,7 @@ store.checkImport()
       <u-button class="mt-4" v-if="!checkData(store.dates?.['liquidity-exchange'])" color="error" variant="subtle" >Liquidity exchange last import is : {{ formatDate(store.dates?.['liquidity-exchange'])}} </u-button>
       <u-button class="mt-4" v-if="!checkData(store.dates?.['liquidity-nop'])" color="error"  variant="subtle" >Liquidity nop last import is : {{ formatDate(store.dates?.['liquidity-nop'])}} </u-button>
       <u-button class="mt-4" v-if="!checkData(store.dates?.reseve)" color="error" variant="subtle" >reseve last import is : {{ formatDate(store.dates?.reseve)}} </u-button>
-      <u-button class="mt-4" v-if="!checkData(store.dates?.bd_ass_lia_cap)" color="error" variant="subtle" >bd ass lia cap last import is : {{ formatDate(store.dates?.bd_ass_lia_cap)}} </u-button>
+      <u-button class="mt-4" v-if="!checkData(store.dates?.['bd_ass_lia_cap'])" color="error" variant="subtle" >bd ass lia cap last import is : {{ formatDate(store.dates?.bd_ass_lia_cap)}} </u-button>
     </div>
 
   </UCard>
