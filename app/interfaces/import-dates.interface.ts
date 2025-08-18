@@ -10,4 +10,5 @@ export interface ImportDatesInterface {
     "liquidity-exchange": string
     "liquidity-nop": string
     reseve: string
+    bd_ass_lia_cap: string
 }

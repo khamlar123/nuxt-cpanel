@@ -25,7 +25,7 @@ const importDate = reactive({
 })
 
 const tables: string[] = [
-    'loan', 'sector-bal', 'bol-loan', 'income', 'expense', 'deposit', 'admin', 'liquidity', 'liquidity-exchange', 'liquidity-nop', 'reseve'
+    'loan', 'sector-bal', 'bol-loan', 'income', 'expense', 'deposit', 'admin', 'liquidity', 'liquidity-exchange', 'liquidity-nop', 'reseve', 'liquidity-cap-asset'
 ]
 
 const onSubmit = () => {
@@ -62,6 +62,7 @@ const checkTask = () => {
   checkTaskArray.value.push(checkData(store.dates?.['liquidity-exchange']))
   checkTaskArray.value.push(checkData(store.dates?.['liquidity-nop']))
   checkTaskArray.value.push(checkData(store.dates?.reseve))
+  checkTaskArray.value.push(checkData(store.dates?.bd_ass_lia_cap))
 }
 checkTask()
 
@@ -106,6 +107,7 @@ store.checkImport()
       <u-button class="mt-4" v-if="!checkData(store.dates?.['liquidity-exchange'])" color="error" variant="subtle" >Liquidity exchange last import is : {{ formatDate(store.dates?.['liquidity-exchange'])}} </u-button>
       <u-button class="mt-4" v-if="!checkData(store.dates?.['liquidity-nop'])" color="error"  variant="subtle" >Liquidity nop last import is : {{ formatDate(store.dates?.['liquidity-nop'])}} </u-button>
       <u-button class="mt-4" v-if="!checkData(store.dates?.reseve)" color="error" variant="subtle" >reseve last import is : {{ formatDate(store.dates?.reseve)}} </u-button>
+      <u-button class="mt-4" v-if="!checkData(store.dates?.bd_ass_lia_cap)" color="error" variant="subtle" >bd ass lia cap last import is : {{ formatDate(store.dates?.bd_ass_lia_cap)}} </u-button>
     </div>
 
   </UCard>

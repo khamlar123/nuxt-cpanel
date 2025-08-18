@@ -243,7 +243,7 @@ export const useRoleStore = defineStore('role', {
 
                 this.isLoading = false;
                 await antToast('Create permission successfully', '', 'success')
-                router.push('/setting')
+                router.push('/permission')
             } catch (err ) {
 
                 this.isLoading = false;
