@@ -62,7 +62,7 @@ const checkTask = () => {
   checkTaskArray.value.push(checkData(store.dates?.['liquidity-exchange']))
   checkTaskArray.value.push(checkData(store.dates?.['liquidity-nop']))
   checkTaskArray.value.push(checkData(store.dates?.reseve))
-  checkTaskArray.value.push(checkData(store.dates?.bd_ass_lia_cap))
+  checkTaskArray.value.push(checkData(store.dates?.['bd_ass_lia_cap']))
 }
 checkTask()
 
