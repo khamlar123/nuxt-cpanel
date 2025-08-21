@@ -11,4 +11,5 @@ export interface ImportDatesInterface {
     "liquidity-nop": string
     reseve: string
     bd_ass_lia_cap: string
+    "loan-app": string
 }

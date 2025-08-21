@@ -23,7 +23,7 @@ const importDate = reactive({
 })
 
 const tables: string[] = [
-    'loan', 'sector-bal', 'bol-loan', 'income', 'expense', 'deposit', 'admin', 'liquidity', 'liquidity-exchange', 'liquidity-nop', 'reseve', 'liquidity-cap-asset'
+    'loan', 'sector-bal', 'bol-loan', 'income', 'expense', 'deposit', 'admin', 'liquidity', 'liquidity-exchange', 'liquidity-nop', 'reseve', 'liquidity-cap-asset', 'loan-app'
 ]
 
 const onSubmit = () => {
@@ -46,10 +46,6 @@ const change =() => {
   minDate.value = moment( importDate.select_table !== 'liquidity-cap-asset' ? store.dates[importDate.select_table]:store.dates['bd_ass_lia_cap'] ).add(1, 'd').format('YYYY-MM-DD')
   maxDate.value = moment().add(-1, 'd').format('YYYY-MM-DD')
   canChangeDate.value = false;
-  console.log('name', importDate.select_table)
-  console.log('store.dates', store.dates)
-  console.log(' minDate.value',  minDate.value)
-  console.log(' maxDate.value ',  maxDate.value )
 }
 
 const checkTask = () => {
@@ -65,6 +61,7 @@ const checkTask = () => {
   checkTaskArray.value.push(checkData(store.dates?.['liquidity-nop']))
   checkTaskArray.value.push(checkData(store.dates?.reseve))
   checkTaskArray.value.push(checkData(store.dates?.bd_ass_lia_cap))
+  checkTaskArray.value.push(checkData(store.dates?.['loan-app']))
 }
 checkTask()
 
@@ -109,6 +106,7 @@ store.checkImport()
       <u-button class="mt-4" v-if="!checkData(store.dates?.['liquidity-nop'])" color="error"  variant="subtle" >Liquidity nop last import is : {{ formatDate(store.dates?.['liquidity-nop'])}} </u-button>
       <u-button class="mt-4" v-if="!checkData(store.dates?.reseve)" color="error" variant="subtle" >reseve last import is : {{ formatDate(store.dates?.reseve)}} </u-button>
       <u-button class="mt-4" v-if="!checkData(store.dates?.bd_ass_lia_cap)" color="error" variant="subtle" >bd ass lia cap last import is : {{ formatDate(store.dates?.bd_ass_lia_cap)}} </u-button>
+      <u-button class="mt-4" v-if="!checkData(store.dates?.['loan-app'])" color="error" variant="subtle" >loan app last import is : {{ formatDate(store.dates?.['loan-app'])}} </u-button>
     </div>
 
   </UCard>
