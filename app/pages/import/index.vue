@@ -23,7 +23,20 @@ const importDate = reactive({
 })
 
 const tables: string[] = [
-    'loan', 'sector-bal', 'bol-loan', 'income', 'expense', 'deposit', 'admin', 'liquidity', 'liquidity-exchange', 'liquidity-nop', 'reseve', 'liquidity-cap-asset', 'loan-app'
+  'loan',
+  'sector-bal',
+  'bol-loan',
+  'income',
+  'expense',
+  'deposit',
+  'admin',
+  'liquidity',
+  'liquidity-exchange',
+  'liquidity-nop',
+  'reseve',
+  'liquidity-cap-asset',
+  'loan-app',
+  'exchange-rate'
 ]
 
 const onSubmit = () => {
@@ -34,16 +47,22 @@ const onSubmit = () => {
 }
 
 const formatDate = (date: string) => {
-    return moment(date).format('YYYY-MM-DD')
+  return moment(date).format('YYYY-MM-DD')
 }
 
 const checkData = (inputDate: string): boolean => {
-  const checkDate =  moment().add(-1, 'd').format('YYYYMMDD') === inputDate;
-  return checkDate;
+  return moment().add(-1, 'd').format('YYYYMMDD') === inputDate;
 }
 
-const change =() => {
-  minDate.value = moment( importDate.select_table !== 'liquidity-cap-asset' ? store.dates[importDate.select_table]:store.dates['bd_ass_lia_cap'] ).add(1, 'd').format('YYYY-MM-DD')
+const change = () => {
+  if (!store.dates) return  // stop if not loaded yet
+  const baseDate =
+      importDate.select_table !== 'liquidity-cap-asset'
+          ? store.dates[importDate.select_table]
+          : store.dates['bd_ass_lia_cap']
+
+  if (!baseDate) return  // also check if key exists
+  minDate.value = moment(baseDate).add(1, 'd').format('YYYY-MM-DD')
   maxDate.value = moment().add(-1, 'd').format('YYYY-MM-DD')
   canChangeDate.value = false;
 }
@@ -62,6 +81,7 @@ const checkTask = () => {
   checkTaskArray.value.push(checkData(store.dates?.reseve))
   checkTaskArray.value.push(checkData(store.dates?.bd_ass_lia_cap))
   checkTaskArray.value.push(checkData(store.dates?.['loan-app']))
+  checkTaskArray.value.push(checkData(store.dates?.['exchange-rate']))
 }
 checkTask()
 
@@ -76,42 +96,70 @@ store.checkImport()
       <div class="flex items-center gap-2">
 
         <UFormField label="Select Table" name="select_table" required>
-          <USelectMenu v-model="importDate.select_table" :items="tables" class="w-48" @change="change" />
+          <USelectMenu v-model="importDate.select_table" :items="tables" class="w-48" @change="change"/>
         </UFormField>
 
-        <UFormField label="Start" name="start" required >
-          <UInput :disabled="canChangeDate" type="date" :min="minDate" :max="maxDate"  placeholder="YYYYMMDD" icon="i-lucide-calendar" v-model="importDate.start" required />
+        <UFormField label="Start" name="start" required>
+          <UInput :disabled="canChangeDate" type="date" :min="minDate" :max="maxDate" placeholder="YYYYMMDD"
+                  icon="i-lucide-calendar" v-model="importDate.start" required/>
         </UFormField>
 
-        <UFormField label="End" name="end" required >
-          <UInput :disabled="canChangeDate" type="date" :min="minDate" :max="maxDate"  placeholder="YYYYMMDD" icon="i-lucide-calendar" v-model="importDate.end" required />
+        <UFormField label="End" name="end" required>
+          <UInput :disabled="canChangeDate" type="date" :min="minDate" :max="maxDate" placeholder="YYYYMMDD"
+                  icon="i-lucide-calendar" v-model="importDate.end" required/>
         </UFormField>
 
         <div class="flex flex-col mt-6">
-          <UButton icon="ic:baseline-cloud-download" type="submit" color="info"  :loading="store.isLoading" />
+          <UButton icon="ic:baseline-cloud-download" type="submit" color="info" :loading="store.isLoading"/>
         </div>
       </div>
     </UForm>
     <div class="flex flex-col">
       <h1 class="mt-4">Your task</h1>
-      <u-button class="mt-4" v-if="!checkData(store.dates?.loan)" color="error"  variant="subtle" >loan last import is : {{ formatDate(store.dates?.loan)}} </u-button>
-      <u-button class="mt-4" v-if="!checkData(store.dates?.['sector-bal'])" color="error"  variant="subtle" >sector bal last import is : {{ formatDate(store.dates?.['sector-bal'])}} </u-button>
-      <u-button class="mt-4" v-if="!checkData(store.dates?.['bol-loan'])"  color="error"  variant="subtle" >bol loan last import is : {{ formatDate(store.dates?.['bol-loan'])}} </u-button>
-      <u-button class="mt-4" v-if="!checkData(store.dates?.income)" color="error" variant="subtle" >income last import is : {{ formatDate(store.dates?.income)}} </u-button>
-      <u-button class="mt-4" v-if="!checkData(store.dates?.expense)" color="error" variant="subtle" >expense last import is : {{ formatDate(store.dates?.expense)}} </u-button>
-      <u-button class="mt-4" v-if="!checkData(store.dates?.deposit)" color="error" variant="subtle" >deposit last import is : {{ formatDate(store.dates?.deposit)}} </u-button>
-      <u-button class="mt-4" v-if="!checkData(store.dates?.admin)" color="error" variant="subtle" >admin last import is : {{ formatDate(store.dates?.admin)}} </u-button>
-      <u-button class="mt-4" v-if="!checkData(store.dates?.liquidity)" color="error" variant="subtle" >Liquidity last import is : {{ formatDate(store.dates?.liquidity)}} </u-button>
-      <u-button class="mt-4" v-if="!checkData(store.dates?.['liquidity-exchange'])" color="error" variant="subtle" >Liquidity exchange last import is : {{ formatDate(store.dates?.['liquidity-exchange'])}} </u-button>
-      <u-button class="mt-4" v-if="!checkData(store.dates?.['liquidity-nop'])" color="error"  variant="subtle" >Liquidity nop last import is : {{ formatDate(store.dates?.['liquidity-nop'])}} </u-button>
-      <u-button class="mt-4" v-if="!checkData(store.dates?.reseve)" color="error" variant="subtle" >reseve last import is : {{ formatDate(store.dates?.reseve)}} </u-button>
-      <u-button class="mt-4" v-if="!checkData(store.dates?.bd_ass_lia_cap)" color="error" variant="subtle" >bd ass lia cap last import is : {{ formatDate(store.dates?.bd_ass_lia_cap)}} </u-button>
-      <u-button class="mt-4" v-if="!checkData(store.dates?.['loan-app'])" color="error" variant="subtle" >loan app last import is : {{ formatDate(store.dates?.['loan-app'])}} </u-button>
+      <u-button class="mt-4" v-if="!checkData(store.dates?.loan)" color="error" variant="subtle">loan last import is :
+        {{ formatDate(store.dates?.loan) }}
+      </u-button>
+      <u-button class="mt-4" v-if="!checkData(store.dates?.['sector-bal'])" color="error" variant="subtle">sector bal
+        last import is : {{ formatDate(store.dates?.['sector-bal']) }}
+      </u-button>
+      <u-button class="mt-4" v-if="!checkData(store.dates?.['bol-loan'])" color="error" variant="subtle">bol loan last
+        import is : {{ formatDate(store.dates?.['bol-loan']) }}
+      </u-button>
+      <u-button class="mt-4" v-if="!checkData(store.dates?.income)" color="error" variant="subtle">income last import is
+        : {{ formatDate(store.dates?.income) }}
+      </u-button>
+      <u-button class="mt-4" v-if="!checkData(store.dates?.expense)" color="error" variant="subtle">expense last import
+        is : {{ formatDate(store.dates?.expense) }}
+      </u-button>
+      <u-button class="mt-4" v-if="!checkData(store.dates?.deposit)" color="error" variant="subtle">deposit last import
+        is : {{ formatDate(store.dates?.deposit) }}
+      </u-button>
+      <u-button class="mt-4" v-if="!checkData(store.dates?.admin)" color="error" variant="subtle">admin last import is :
+        {{ formatDate(store.dates?.admin) }}
+      </u-button>
+      <u-button class="mt-4" v-if="!checkData(store.dates?.liquidity)" color="error" variant="subtle">Liquidity last
+        import is : {{ formatDate(store.dates?.liquidity) }}
+      </u-button>
+      <u-button class="mt-4" v-if="!checkData(store.dates?.['liquidity-exchange'])" color="error" variant="subtle">
+        Liquidity exchange last import is : {{ formatDate(store.dates?.['liquidity-exchange']) }}
+      </u-button>
+      <u-button class="mt-4" v-if="!checkData(store.dates?.['liquidity-nop'])" color="error" variant="subtle">Liquidity
+        nop last import is : {{ formatDate(store.dates?.['liquidity-nop']) }}
+      </u-button>
+      <u-button class="mt-4" v-if="!checkData(store.dates?.reseve)" color="error" variant="subtle">reseve last import is
+        : {{ formatDate(store.dates?.reseve) }}
+      </u-button>
+      <u-button class="mt-4" v-if="!checkData(store.dates?.bd_ass_lia_cap)" color="error" variant="subtle">bd ass lia
+        cap last import is : {{ formatDate(store.dates?.bd_ass_lia_cap) }}
+      </u-button>
+      <u-button class="mt-4" v-if="!checkData(store.dates?.['loan-app'])" color="error" variant="subtle">loan app last
+        import is : {{ formatDate(store.dates?.['loan-app']) }}
+      </u-button>
+      <u-button class="mt-4" v-if="!checkData(store.dates?.['exchange-rate'])" color="error" variant="subtle">exchange
+        rate last import is : {{ formatDate(store.dates?.['exchange-rate']) }}
+      </u-button>
     </div>
 
   </UCard>
-
-
-
 </template>
 
