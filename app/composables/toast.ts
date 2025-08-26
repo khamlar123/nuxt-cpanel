@@ -1,9 +1,9 @@
 import { notification } from 'ant-design-vue'
 
-export const antToast = async (mesaage: string, desc: string, type: string) => {
+export const antToast = async (message: string, desc: string, type: string) => {
     notification.open({
-        message: mesaage,
+        message: message,
         description: desc,
-        type: type,
+        type: type ,
     })
 }
