@@ -16,6 +16,7 @@ const schema = v.object({
   end: v.pipe(v.string(), v.minLength(8, 'Must be put date format is yyyymmdd')),
 })
 
+
 const importDate = reactive({
   select_table: 'select Table',
   start: '',
@@ -56,6 +57,13 @@ const checkData = (inputDate: string): boolean => {
 
 const change = () => {
   if (!store.dates) return  // stop if not loaded yet
+
+  if (importDate.select_table === 'exchange-rate') {
+    console.log('im here');
+    const nowDate = moment();
+    return;
+  }
+
   const baseDate =
       importDate.select_table !== 'liquidity-cap-asset'
           ? store.dates[importDate.select_table]
@@ -115,6 +123,7 @@ store.checkImport()
       </div>
     </UForm>
     <div class="flex flex-col">
+      <pre>{{importDate.select_table}}</pre>
       <h1 class="mt-4">Your task</h1>
       <u-button class="mt-4" v-if="!checkData(store.dates?.loan)" color="error" variant="subtle">loan last import is :
         {{ formatDate(store.dates?.loan) }}

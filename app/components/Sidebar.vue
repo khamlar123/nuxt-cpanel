@@ -23,26 +23,26 @@ const items = ref<NavigationMenuItem[][]>([
       icon: 'ic:round-supervised-user-circle',
       to: '/users'
     },
-    {
-      label: 'Settings',
-      icon: 'ic:baseline-settings',
-      active: false,
-      defaultOpen: false,
-      children: [
-        {
-          label: 'Permission',
-          icon: 'material-symbols:article-person',
-          description: 'Use NuxtLink with superpowers.',
-          to: '/permission'
-        },
-        {
-          label: 'Role',
-          icon: 'material-symbols:add-moderator',
-          description: 'Show a horizontal bar to indicate task progression.',
-          to: '/role'
-        }
-      ]
-    }
+    // {
+    //   label: 'Settings',
+    //   icon: 'ic:baseline-settings',
+    //   active: false,
+    //   defaultOpen: false,
+    //   children: [
+    //     {
+    //       label: 'Permission',
+    //       icon: 'material-symbols:article-person',
+    //       description: 'Use NuxtLink with superpowers.',
+    //       to: '/permission'
+    //     },
+    //     {
+    //       label: 'Role',
+    //       icon: 'material-symbols:add-moderator',
+    //       description: 'Show a horizontal bar to indicate task progression.',
+    //       to: '/role'
+    //     }
+    //   ]
+    // }
   ],
   // [
   //   {

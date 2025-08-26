@@ -25,7 +25,7 @@ function createUserSchema(requirePassword = true) {
         ? v.pipe(v.string(), v.minLength(6, 'Must be at least 6 characters'))
         : v.pipe(v.any() ),
     employee_id: v.pipe(v.string(),  v.minLength(5, 'Must be at least 5 characters')),
-    role_id: v.pipe(v.number(), v.minValue(1, 'Please select')),
+    role: v.pipe(v.string()),
     name: v.pipe(v.string()),
     branch_id: v.pipe(v.number(), v.minValue(1, 'Please branch')),
     is_admin: v.pipe(v.boolean()),
@@ -41,10 +41,10 @@ const state = reactive({
   email: '',
   password: '',
   employee_id: '',
-  role_id: 0,
+  role: 'USER',
   name: '',
   branch_id: 0,
-  is_admin: true,
+  is_admin: false,
   phone: '',
 })
 
@@ -96,6 +96,7 @@ onMounted(async () => {
   await store.branch();
 })
 
+const items = ref(['USER', 'ADMIN'])
 </script>
 
 <template>
@@ -127,14 +128,21 @@ onMounted(async () => {
         </UFormField>
 
         <div class="relative z-50">
-          <UFormField label="Role" name="role_id" required>
-            <u-select
-                v-model="state.role_id"
-                :items="roleOptions"
-                class="w-[190px]"
-                placeholder="-- select role --"
-            ></u-select>
+<!--          <UFormField label="Role" name="role_id" required>-->
+<!--            <u-select-->
+<!--                v-model="state.role_id"-->
+<!--                :items="roleOptions"-->
+<!--                class="w-[190px]"-->
+<!--                placeholder="&#45;&#45; select role &#45;&#45;"-->
+<!--            ></u-select>-->
+<!--          </UFormField>-->
+
+          <UFormField label="Role" name="role" required>
+
+              <USelect v-model="state.role" :items="items" class="w-48" />
+
           </UFormField>
+
         </div>
 
         <div class="relative z-50">
