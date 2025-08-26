@@ -8,13 +8,13 @@ export default defineNuxtConfig({
         autoImport: true
     },
     devServer: {
-        // host: '0.0.0.0',
+        host: '0.0.0.0',
         port: 4200,
     },
     runtimeConfig: {
         public: {
-            // base_url: process.env.NUXT_PUBLIC_BASE_URL,
-            base_url: ""
+            base_url: process.env.NUXT_PUBLIC_BASE_URL,
+            //base_url: ""
         }
     },
 
