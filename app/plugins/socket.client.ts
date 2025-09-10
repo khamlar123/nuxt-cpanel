@@ -1,7 +1,7 @@
 import { io } from 'socket.io-client'
 
 export default defineNuxtPlugin(() => {
-    const socket = io('http://localhost:3000', {
+    const socket = io('http://localhost:4000', {
         path: '/socket.io',
         transports: ['websocket'], // use websocket
         withCredentials: true,

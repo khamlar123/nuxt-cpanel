@@ -42,10 +42,10 @@ const columns: TableColumn<Payment>[] = [
     accessorKey: 'email',
     header: 'Email'
   },
-  {
-    accessorKey: 'role.name',
-    header: 'Role'
-  },
+  // {
+  //   accessorKey: 'role',
+  //   header: 'Role'
+  // },
   {
     accessorKey: 'phone',
     header: 'Phone'

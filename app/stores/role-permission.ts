@@ -37,10 +37,9 @@ export const useRoleStore = defineStore('role', {
                 this.permissionList = response.data.data;
                 this.masterPermission = response.data.data;
                 this.isLoading = false;
-            } catch (err ) {
-
+            } catch (err: any ) {
                 this.isLoading = false;
-                await antToast(err.message, '', 'error')
+                await antToast(err.message as string, '', 'error')
             }
         },
 
@@ -63,7 +62,7 @@ export const useRoleStore = defineStore('role', {
                 }
                 this.permission = response.data.data;
                 this.isLoading = false;
-            } catch (err ) {
+            } catch (err: any ) {
 
                 this.isLoading = false;
                 await antToast(err.message, '', 'error')
@@ -90,7 +89,7 @@ export const useRoleStore = defineStore('role', {
                 this.roleList = response.data.data;
                 this.masterRole = response.data.data;
                 this.isLoading = false;
-            } catch (err ) {
+            } catch (err: any ) {
 
                 this.isLoading = false;
                 await antToast(err.message, '', 'error')
@@ -117,7 +116,7 @@ export const useRoleStore = defineStore('role', {
 
                 this.isLoading = false;
                 await antToast('Change status successfully', '', 'success')
-            } catch (err) {
+            } catch (err: any) {
                 await antToast(err.message, '', 'error')
                 this.isLoading = false;
             }
@@ -145,7 +144,7 @@ export const useRoleStore = defineStore('role', {
                 this.isLoading = false;
                 await antToast('Update permission successfully', '', 'success')
                 router.push({path: '/permission'})
-            } catch (err) {
+            } catch (err: any) {
                 await antToast(err.message, '', 'error')
                 this.isLoading = false;
             }
@@ -191,7 +190,7 @@ export const useRoleStore = defineStore('role', {
                 }
                 this.roleList = response.data.data;
                 this.isLoading = false;
-            } catch (err ) {
+            } catch (err: any ) {
                 await antToast(err.message, '', 'error')
                 this.isLoading = false;
             }
@@ -216,7 +215,7 @@ export const useRoleStore = defineStore('role', {
                 }
                 this.branchList = response.data.data;
                 this.isLoading = false;
-            } catch (err ) {
+            } catch (err: any ) {
                 await antToast(err.message, '', 'error')
                 this.isLoading = false;
             }
@@ -244,7 +243,7 @@ export const useRoleStore = defineStore('role', {
                 this.isLoading = false;
                 await antToast('Create permission successfully', '', 'success')
                 router.push('/permission')
-            } catch (err ) {
+            } catch (err: any ) {
 
                 this.isLoading = false;
                 await antToast(err.message, '', 'error')
@@ -273,7 +272,7 @@ export const useRoleStore = defineStore('role', {
                 this.isLoading = false;
                 await antToast('Create role successfully', '', 'success')
                 router.push('/role')
-            } catch (err ) {
+            } catch (err: any ) {
 
                 this.isLoading = false;
                 await antToast(err.message, '', 'error')
@@ -300,7 +299,7 @@ export const useRoleStore = defineStore('role', {
 
                 this.isLoading = false;
                 this.role = response.data.data;
-            } catch (err ) {
+            } catch (err: any ) {
 
                 this.isLoading = false;
                 await antToast(err.message, '', 'error')
@@ -329,7 +328,7 @@ export const useRoleStore = defineStore('role', {
                 this.isLoading = false;
                 await antToast('Update role successfully', '', 'success')
                 router.push({path: '/role'})
-            } catch (err) {
+            } catch (err: any) {
                 await antToast(err.message, '', 'error')
                 this.isLoading = false;
             }

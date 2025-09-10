@@ -7,7 +7,7 @@ import {useUserStore} from "~/stores/user.store";
 const route = useRoute();
 const router = useRouter();
 const userId: number = Number(route.params.id);
-const store = useRoleStore();
+ const store = useRoleStore();
 const userStore = useUserStore()
 
 
@@ -48,16 +48,6 @@ const state = reactive({
   phone: '',
 })
 
-
-const roleOptions = computed(() => {
-return store.roleList.filter(f => f.is_active === true).map(m => {
-    return {
-      label: m.name,
-      value: m.id,
-    }
-  })
-})
-
 const branchOption = computed(() => {
   return store.branchList.map(b => {
     return {
@@ -86,8 +76,9 @@ onMounted(async () => {
   if (userId > 0 ) {
    await userStore.findOne(userId);
    const data = userStore.user;
+    console.log('data', data)
    if (data) {
-     delete data.password
+     delete data['password'];
      Object.assign(state, data);
    }
   }
