@@ -26,7 +26,7 @@ export default defineNuxtConfig({
         '@nuxt/eslint',
         '@nuxt/image',
         '@nuxt/scripts',
-        '@nuxt/ecosystem.config.cjs-utils',
+        '@nuxt/test-utils',
         '@nuxt/ui',
         '@nuxt/icon',
         '@vueuse/nuxt',

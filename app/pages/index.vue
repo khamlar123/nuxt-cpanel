@@ -95,7 +95,7 @@ onUnmounted(() => {
 
 const chatById = () => {
 
-  // $socket.to(`chat-user-1`).emit('chat-user-1', 'user chat to admin ecosystem.config.cjs')
+  // $socket.to(`chat-user-1`).emit('chat-user-1', 'user chat to admin test')
 }
 
 const sendMessage = () => {
