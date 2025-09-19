@@ -15,9 +15,12 @@ export const useImportStore = defineStore('import', {
             const {$axios} = useNuxtApp();
             try {
                 this.isLoading = true;
+
+                const token = useCookie('token');
                 const response = await $axios.get(`/import/`,
                     {
                         headers: {
+                            Authorization: `Bearer ${token.value}`,
                             'Content-Type': "application/json"
                         }
                     }
@@ -38,9 +41,11 @@ export const useImportStore = defineStore('import', {
             const {$axios} = useNuxtApp();
             try {
                 this.isLoading = true;
+                const token = useCookie('token');
                 const response = await $axios.post(`/import/${url}?start=${start}&end=${end}`,
                     {
                         headers: {
+                            Authorization: `Bearer ${token.value}`,
                             'Content-Type': "application/json"
                         }
                     }
