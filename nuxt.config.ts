@@ -15,8 +15,8 @@ export default defineNuxtConfig({
         public: {
             // base_url: '',
             //base_url: ""
-            auth_base_url: '',
-            import_base_url: ''
+            auth_base_url: process.env.NUXT_PUBLIC_AUTH_BASE_URL,
+            import_base_url: process.env.NUXT_PUBLIC_IMPORT_BASE_URL,
         }
     },
 
@@ -26,7 +26,7 @@ export default defineNuxtConfig({
         '@nuxt/eslint',
         '@nuxt/image',
         '@nuxt/scripts',
-        '@nuxt/test-utils',
+        '@nuxt/ecosystem.config.cjs-utils',
         '@nuxt/ui',
         '@nuxt/icon',
         '@vueuse/nuxt',
