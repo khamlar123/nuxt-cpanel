@@ -42,7 +42,9 @@ export const useImportStore = defineStore('import', {
             try {
                 this.isLoading = true;
                 const token = useCookie('token');
+                console.log('token', token.value)
                 const response = await $axios.post(`/import/${url}?start=${start}&end=${end}`,
+                    {},
                     {
                         headers: {
                             Authorization: `Bearer ${token.value}`,
