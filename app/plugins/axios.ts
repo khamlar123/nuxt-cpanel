@@ -2,8 +2,16 @@ import axios, {type AxiosInstance} from "axios";
 
 export default defineNuxtPlugin(nuxtApp => {
     const config = useRuntimeConfig();
-    const axiosInstance: AxiosInstance = axios.create({
-        baseURL: config.public.base_url,
+    const authAxiosInstance: AxiosInstance = axios.create({
+        baseURL: config.public.auth_base_url,
+        headers: {
+            'Content-Type': "application/json",
+            'access-control-allow-origin': '*'
+        }
+    })
+
+    const importAxiosInstance: AxiosInstance = axios.create({
+        baseURL: config.public.import_base_url,
         headers: {
             'Content-Type': "application/json",
             'access-control-allow-origin': '*'
@@ -12,7 +20,8 @@ export default defineNuxtPlugin(nuxtApp => {
 
     return {
         provide: {
-            axios: axiosInstance
+            authAxios: authAxiosInstance,
+            importAxios: importAxiosInstance,
         }
     }
 

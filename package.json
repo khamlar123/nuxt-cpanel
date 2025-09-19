@@ -31,6 +31,7 @@
     "ant-design-vue": "^4.2.6",
     "axios": "^1.10.0",
     "eslint": "^9.31.0",
+    "js-base64": "^3.7.8",
     "lucide-vue-next": "^0.525.0",
     "maska": "^3.2.0",
     "nuxt": "^4.0.0",

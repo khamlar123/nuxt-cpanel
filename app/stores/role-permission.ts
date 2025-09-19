@@ -18,11 +18,11 @@ export const useRoleStore = defineStore('role', {
     }),
     actions: {
         async findPermission():Promise<void> {
-            const {$axios} = useNuxtApp();
+             const {$importAxios} = useNuxtApp();
             try {
 
                 this.isLoading = true;
-                const response = await $axios.get('user/permission',
+                const response = await $importAxios.get('user/permission',
                     {
                         headers: {
                             'Content-Type': "application/json"
@@ -44,11 +44,11 @@ export const useRoleStore = defineStore('role', {
         },
 
         async findOnePermission(id: string): Promise<void> {
-            const {$axios} = useNuxtApp();
+             const {$importAxios} = useNuxtApp();
             try {
 
                 this.isLoading = true;
-                const response = await $axios.get(`/user/permission/${id}`,
+                const response = await $importAxios.get(`/user/permission/${id}`,
                     {
                         headers: {
                             'Content-Type': "application/json"
@@ -70,11 +70,11 @@ export const useRoleStore = defineStore('role', {
         },
 
         async findRole():Promise<void> {
-            const {$axios} = useNuxtApp();
+             const {$importAxios} = useNuxtApp();
             try {
 
                 this.isLoading = true;
-                const response = await $axios.get('/user/roles',
+                const response = await $importAxios.get('/user/roles',
                     {
                         headers: {
                             'Content-Type': "application/json"
@@ -97,11 +97,11 @@ export const useRoleStore = defineStore('role', {
         },
 
         async permissionToggle(id: number):Promise<void> {
-            const {$axios} = useNuxtApp();
+             const {$importAxios} = useNuxtApp();
             try {
 
                 this.isLoading = true;
-                const response = await $axios.patch(`user/permission/toggle-status/${id}`,
+                const response = await $importAxios.patch(`user/permission/toggle-status/${id}`,
                     {
                         headers: {
                             'Content-Type': "application/json"
@@ -123,11 +123,11 @@ export const useRoleStore = defineStore('role', {
         },
 
         async updatePermission(id: number, model: any, router: any):Promise<void> {
-            const {$axios} = useNuxtApp();
+             const {$importAxios} = useNuxtApp();
             try {
 
                 this.isLoading = true;
-                const response = await $axios.patch(`user/permission/update/${id}`,
+                const response = await $importAxios.patch(`user/permission/update/${id}`,
                     model,
                     {
                         headers: {
@@ -172,11 +172,11 @@ export const useRoleStore = defineStore('role', {
         },
 
         async find(): Promise<void> {
-            const {$axios} = useNuxtApp();
+             const {$importAxios} = useNuxtApp();
             try {
 
                 this.isLoading = true;
-                const response = await $axios.get('user/roles',
+                const response = await $importAxios.get('user/roles',
                     {
                         headers: {
                             'Content-Type': "application/json"
@@ -197,11 +197,11 @@ export const useRoleStore = defineStore('role', {
         },
 
         async branch(): Promise<void> {
-            const {$axios} = useNuxtApp();
+             const {$importAxios} = useNuxtApp();
             try {
 
                 this.isLoading = true;
-                const response = await $axios.get('branch',
+                const response = await $importAxios.get('branch',
                     {
                         headers: {
                             'Content-Type': "application/json"
@@ -222,11 +222,11 @@ export const useRoleStore = defineStore('role', {
         },
 
         async createPermission(model: any, router: any): Promise<void> {
-            const {$axios} = useNuxtApp();
+             const {$importAxios} = useNuxtApp();
             try {
 
                 this.isLoading = true;
-                const response = await $axios.post('/user/create-permission',
+                const response = await $importAxios.post('/user/create-permission',
                     model,
                     {
                         headers: {
@@ -251,11 +251,11 @@ export const useRoleStore = defineStore('role', {
         },
 
         async createRole(model: any, router: any): Promise<void> {
-            const {$axios} = useNuxtApp();
+             const {$importAxios} = useNuxtApp();
             try {
 
                 this.isLoading = true;
-                const response = await $axios.post('/user/create-role',
+                const response = await $importAxios.post('/user/create-role',
                     model,
                     {
                         headers: {
@@ -280,11 +280,11 @@ export const useRoleStore = defineStore('role', {
         },
 
         async findOneRole(id: number ): Promise<void> {
-            const {$axios} = useNuxtApp();
+             const {$importAxios} = useNuxtApp();
             try {
 
                 this.isLoading = true;
-                const response = await $axios.get(`/user/role/${id}`,
+                const response = await $importAxios.get(`/user/role/${id}`,
                     {
                         headers: {
                             'Content-Type': "application/json"
@@ -307,11 +307,11 @@ export const useRoleStore = defineStore('role', {
         },
 
         async updateRole(id: number, model: any, router: any): Promise<void>{
-            const {$axios} = useNuxtApp();
+            const {$importAxios} = useNuxtApp();
             try {
 
                 this.isLoading = true;
-                const response = await $axios.patch(`/user/role/update/${id}`,
+                const response = await $importAxios.patch(`/user/role/update/${id}`,
                     model,
                     {
                         headers: {

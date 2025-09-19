@@ -14,13 +14,15 @@ export const useUserStore = defineStore('user', {
     actions: {
 
         async find(): Promise<void> {
-            const {$axios} = useNuxtApp();
+              const {$importAxios} = useNuxtApp();
             try {
 
                 this.isLoading = true;
-                const response = await $axios.get('user',
+                const token = useCookie('token');
+                const response = await $importAxios.get('user',
                     {
                         headers: {
+                            Authorization: `Bearer ${token.value}`,
                             'Content-Type': "application/json"
                         }
                     }
@@ -33,19 +35,21 @@ export const useUserStore = defineStore('user', {
                 this.userList = response.data.data;
                 this.masterData = response.data.data;
                 this.isLoading = false;
-            } catch (err) {
+            } catch (err: any) {
                 this.isLoading = false;
             }
         },
 
         async findOne(id: number): Promise<void> {
-            const {$axios} = useNuxtApp();
+              const {$importAxios} = useNuxtApp();
             try {
 
                 this.isLoading = true;
-                const response = await $axios.get(`user/user/${id}`,
+                const token = useCookie('token');
+                const response = await $importAxios.get(`user/user/${id}`,
                     {
                         headers: {
+                            Authorization: `Bearer ${token.value}`,
                             'Content-Type': "application/json"
                         }
                     }
@@ -57,7 +61,7 @@ export const useUserStore = defineStore('user', {
                 }
                 this.user = response.data.data;
                 this.isLoading = false;
-            } catch (err) {
+            } catch (err: any) {
                 this.isLoading = false;
             }
         },
@@ -78,21 +82,22 @@ export const useUserStore = defineStore('user', {
                 }
 
                 this.userList = searchData;
-            } catch (err) {
+            } catch (err: any) {
                this.userList = [];
             }
         },
 
         async toggleStatus(employee: string):Promise<void> {
-            const {$axios} = useNuxtApp();
+              const {$importAxios} = useNuxtApp();
             try {
 
                 this.isLoading = true;
-                const response = await $axios.patch(`user/toggle-status/${employee}`,
+                const token = useCookie('token');
+                const response = await $importAxios.patch(`user/toggle-status/${employee}`,
                     {
                         headers: {
                             'Content-Type': "application/json",
-                           'access-control-allow-origin': '*'
+                            Authorization: `Bearer ${token.value}`,
                         }
                     }
                 );
@@ -105,21 +110,23 @@ export const useUserStore = defineStore('user', {
                 // this.masterData = response.data.data;
                 this.isLoading = false;
                await antToast('Change status successfully', '', 'success')
-            } catch (err) {
-                await antToast(err.message, '', 'error')
+            } catch (err: any) {
+                await antToast(err.message , '', 'error')
                 this.isLoading = false;
             }
         },
 
         async update(id:number, model: any, router: any): Promise<any> {
-            const {$axios} = useNuxtApp();
+              const {$importAxios} = useNuxtApp();
             try {
 
                 this.isLoading = true;
-                const response = await $axios.patch(`user/update/${id}`,
+                const token = useCookie('token');
+                const response = await $importAxios.patch(`user/update/${id}`,
                     model,
                     {
                         headers: {
+                            Authorization: `Bearer ${token.value}`,
                             'Content-Type': "application/json"
                         }
                     }
@@ -134,21 +141,23 @@ export const useUserStore = defineStore('user', {
                 await antToast('Update user successfully', '', 'success')
                 this.isLoading = false;
                 router.push('/users');
-            } catch (err) {
+            } catch (err: any) {
                 await antToast(err.message, '', 'error')
                 this.isLoading = false;
             }
         },
 
         async create(model: any, router: any): Promise<any> {
-            const {$axios} = useNuxtApp();
+              const {$importAxios} = useNuxtApp();
             try {
 
                 this.isLoading = true;
-                const response = await $axios.post('user',model,
+                const token = useCookie('token');
+                const response = await $importAxios.post('user',model,
                     {
                         headers: {
-                            'Content-Type': "application/json"
+                            'Content-Type': "application/json",
+                            Authorization: `Bearer ${token.value}`,
                         }
                     }
                 );
@@ -162,7 +171,7 @@ export const useUserStore = defineStore('user', {
                 this.isLoading = false;
                 await antToast('Create user successfully', '', 'success')
                 router.push({path: '/users'})
-            } catch (err) {
+            } catch (err: any) {
                 await antToast(err.message, '', 'error')
                 this.isLoading = false;
             }

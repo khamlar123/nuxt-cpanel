@@ -11,10 +11,11 @@ export const useAuthStore = defineStore('auth', {
     actions: {
 
         async login(modle: any) {
-            const {$axios} = useNuxtApp();
+            const {$authAxios} = useNuxtApp();
             try {
                 this.isLoading = true;
-                const response = await $axios.post(`/auth/login`,
+                // http://10.151.146.245: 5006
+                const response = await $authAxios.post(`/auth/login`,
                     modle,
                     {
                         headers: {
