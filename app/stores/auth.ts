@@ -29,8 +29,8 @@ export const useAuthStore = defineStore('auth', {
                 }
                 this.isLoading = false;
                 await antToast('Login success', '', 'success')
-                console.log(' response.data.accessToken',  response.data.data.accessToken)
-                this.token =  response.data.data.accessToken;
+                console.log(' response.data.accessToken',  response.data.data.getToken.accessToken)
+                this.token =  response.data.data.getToken.accessToken;
 
             } catch (err ) {
                 this.isLoading = false;
