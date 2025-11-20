@@ -38,7 +38,8 @@ const tables: string[] = [
   'liquidity-cap-asset',
   'loan-app',
   'exchange-rate',
-  'account'
+  'account',
+  'loan-ccy',
 ]
 
 const onSubmit = () => {
@@ -91,6 +92,7 @@ const checkTask = () => {
   checkTaskArray.value.push(checkData(store.dates?.['loan-app']))
   checkTaskArray.value.push(checkData(store.dates?.['exchange-rate']))
   checkTaskArray.value.push(checkData(store.dates?.['account']))
+  checkTaskArray.value.push(checkData(store.dates?.['loan-ccy']))
 }
 checkTask()
 
@@ -171,6 +173,9 @@ store.checkImport()
       </u-button>
       <u-button class="mt-4" v-if="!checkData(store.dates?.['account'])" color="error" variant="subtle">
         account import is : {{ formatDate(store.dates?.['account']) }}
+      </u-button>
+      <u-button class="mt-4" v-if="!checkData(store.dates?.['loan-ccy'])" color="error" variant="subtle">
+        account import is : {{ formatDate(store.dates?.['loan-ccy']) }}
       </u-button>
     </div>
 
