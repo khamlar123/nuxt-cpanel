@@ -13,16 +13,13 @@ export default defineNuxtConfig({
     },
     runtimeConfig: {
         public: {
-<<<<<<< HEAD
             base_url: process.env.NUXT_PUBLIC_BASE_URL,
 
             //base_url: ""
-=======
             // base_url: '',
             //base_url: ""
             auth_base_url: process.env.NUXT_PUBLIC_AUTH_BASE_URL,
             import_base_url: process.env.NUXT_PUBLIC_IMPORT_BASE_URL,
->>>>>>> refs/remotes/origin/main
         }
     },
 
