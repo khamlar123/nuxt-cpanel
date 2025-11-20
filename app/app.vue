@@ -2,8 +2,12 @@
   <div>
 <!--    <NuxtRouteAnnouncer />-->
 <!--    <NuxtWelcome />-->
-    <nuxt-layout>
-      <nuxt-page />
-    </nuxt-layout>
+    <UApp>
+      <nuxt-layout>
+        <nuxt-page />
+      </nuxt-layout>
+    </UApp>
   </div>
 </template>
+<script setup lang="ts">
+</script>

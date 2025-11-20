@@ -12,12 +12,16 @@ export const useImportStore = defineStore('import', {
     actions: {
 
         async checkImport() {
-            const {$axios} = useNuxtApp();
+            const {$importAxios} = useNuxtApp();
             try {
                 this.isLoading = true;
-                const response = await $axios.get(`/import/`,
+
+                const token = useCookie('token');
+                // http://10.151.146.245:5005
+                const response = await $importAxios.get(`/import`,
                     {
                         headers: {
+                            Authorization: `Bearer ${token.value}`,
                             'Content-Type': "application/json"
                         }
                     }
@@ -35,12 +39,16 @@ export const useImportStore = defineStore('import', {
         },
 
         async importLoan(start: string, end: string, url:string): Promise<void> {
-            const {$axios} = useNuxtApp();
+            const {$importAxios} = useNuxtApp();
             try {
                 this.isLoading = true;
-                const response = await $axios.post(`/import/${url}?start=${start}&end=${end}`,
+                const token = useCookie('token');
+                console.log('token', token.value)
+                const response = await $importAxios.post(`/import/${url}?start=${start}&end=${end}`,
+                    {},
                     {
                         headers: {
+                            Authorization: `Bearer ${token.value}`,
                             'Content-Type': "application/json"
                         }
                     }

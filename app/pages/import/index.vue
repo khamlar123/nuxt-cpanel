@@ -9,13 +9,13 @@ const maxDate = ref<string>();
 const store = useImportStore()
 const checkTaskArray = ref<boolean[]>([]);
 
+const toast = useToast();
 
 const schema = v.object({
   select_table: v.pipe(v.string()),
   start: v.pipe(v.string(), v.minLength(8, 'Must be  put date format is yyyymmdd')),
   end: v.pipe(v.string(), v.minLength(8, 'Must be put date format is yyyymmdd')),
 })
-
 
 const importDate = reactive({
   select_table: 'select Table',
@@ -37,7 +37,9 @@ const tables: string[] = [
   'reseve',
   'liquidity-cap-asset',
   'loan-app',
-  'exchange-rate'
+  'exchange-rate',
+  'account',
+  'loan-ccy',
 ]
 
 const onSubmit = () => {
@@ -59,7 +61,6 @@ const change = () => {
   if (!store.dates) return  // stop if not loaded yet
 
   if (importDate.select_table === 'exchange-rate') {
-    console.log('im here');
     const nowDate = moment();
     return;
   }
@@ -90,6 +91,8 @@ const checkTask = () => {
   checkTaskArray.value.push(checkData(store.dates?.bd_ass_lia_cap))
   checkTaskArray.value.push(checkData(store.dates?.['loan-app']))
   checkTaskArray.value.push(checkData(store.dates?.['exchange-rate']))
+  checkTaskArray.value.push(checkData(store.dates?.['account']))
+  checkTaskArray.value.push(checkData(store.dates?.['loan-ccy']))
 }
 checkTask()
 
@@ -97,6 +100,7 @@ store.checkImport()
 </script>
 
 <template>
+  <UButton @click="showToast">asdasd</UButton>
   <UCard class="pa-4">
     <h1 class="mb-4 font-bold">Import</h1>
     <UForm :schema="schema" :state="importDate" class="space-y-4" @submit="onSubmit">
@@ -166,6 +170,12 @@ store.checkImport()
       </u-button>
       <u-button class="mt-4" v-if="!checkData(store.dates?.['exchange-rate'])" color="error" variant="subtle">exchange
         rate last import is : {{ formatDate(store.dates?.['exchange-rate']) }}
+      </u-button>
+      <u-button class="mt-4" v-if="!checkData(store.dates?.['account'])" color="error" variant="subtle">
+        account import is : {{ formatDate(store.dates?.['account']) }}
+      </u-button>
+      <u-button class="mt-4" v-if="!checkData(store.dates?.['loan-ccy'])" color="error" variant="subtle">
+        account import is : {{ formatDate(store.dates?.['loan-ccy']) }}
       </u-button>
     </div>
 

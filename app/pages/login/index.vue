@@ -34,14 +34,19 @@
 <script setup>
 import { reactive } from 'vue'
 import {useAuthStore} from "~/stores/auth.js";
+import { Base64 } from 'js-base64';
 const store = useAuthStore();
-
 const router = useRouter()
 
 const form = reactive({
-  employee_id: '01633',
+  employee_id: '00000',
   password: '123456'
 })
+
+ const encodeBase64 = (plain) => {
+   const encoded = Base64.encode(plain);
+    return encoded
+ }
 
 const onSubmit = async () => {
   // try {
@@ -56,6 +61,8 @@ const onSubmit = async () => {
   // } catch (err) {
   //   console.error('Login error', err)
   // }
+
+  form.password = encodeBase64(form.password);
  await store.login(form);
   console.log('token', store.token)
   useCookie('token').value = store.token;

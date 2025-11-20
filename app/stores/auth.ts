@@ -11,10 +11,11 @@ export const useAuthStore = defineStore('auth', {
     actions: {
 
         async login(modle: any) {
-            const {$axios} = useNuxtApp();
+            const {$authAxios} = useNuxtApp();
             try {
                 this.isLoading = true;
-                const response = await $axios.post(`/auth/login`,
+                // http://10.151.146.245: 5006
+                const response = await $authAxios.post(`/auth/login`,
                     modle,
                     {
                         headers: {
@@ -28,8 +29,8 @@ export const useAuthStore = defineStore('auth', {
                 }
                 this.isLoading = false;
                 await antToast('Login success', '', 'success')
-                console.log(' response.data.accessToken',  response.data.data.accessToken)
-                this.token =  response.data.data.accessToken;
+                console.log(' response.data.accessToken',  response.data.data.getToken.accessToken)
+                this.token =  response.data.data.getToken.accessToken;
 
             } catch (err ) {
                 this.isLoading = false;
