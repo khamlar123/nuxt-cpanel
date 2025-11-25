@@ -7,13 +7,24 @@ export default defineNuxtConfig({
     imports: {
         autoImport: true
     },
+    // app: [
+    //     {
+    //         name: "cpanel_dashboard",
+    //         script: ".output/server/index.mjs",
+    //         env: {
+    //             NITRO_PORT: 4200,
+    //             NITRO_HOST: "0.0.0.0",
+    //             NUXT_PUBLIC_BASE_URL: "http://10.2.6.32:3000/"
+    //         }
+    //     }
+    // ],
     devServer: {
         host: '0.0.0.0',
         port: 4200,
     },
     runtimeConfig: {
         public: {
-            base_url: process.env.NUXT_PUBLIC_BASE_URL,
+            // base_url: process.env.NUXT_PUBLIC_BASE_URL,
 
             //base_url: ""
             // base_url: '',
